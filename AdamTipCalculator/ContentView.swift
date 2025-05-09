@@ -10,6 +10,17 @@ import SwiftUI
 struct ContentView: View {
     @State private var billTotal = ""
     @State private var tipPercent = 20.0
+    
+    //calculations
+    var tipTotal: Double {
+        let bill = Double(billTotal) ?? 0
+        return bill * tipPercent / 100
+    }
+    
+    var totalBill: Double {
+        (Double(billTotal) ?? 0) + tipTotal
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -20,6 +31,11 @@ struct ContentView: View {
                 Section(header:  Text("Preferred Tip Percent")) {
                     Slider(value: $tipPercent, in: 10...25, step: 2.5)
                     Text("Tip Percent: \(tipPercent)%")
+                }
+                //Calc results
+                Section(header: Text("Calculations")) {
+                    Text("Tip: $\(tipTotal, specifier: "%.2f")")
+                    Text("Total: $\(totalBill, specifier: "%.2f")")
                 }
             }
             .navigationBarTitle("Adam's Tip Calculator")
